@@ -38,8 +38,8 @@ namespace Null.PhantomTank.ConsoleApp
         static void ErrorExit(string title, string description, int exitCode)
         {
             Console.WriteLine(
-                $"Error: {title}\n" +
-                $"       {description}");
+                $"Tips: {title}\n" +
+                $"      {description}");
             Environment.Exit(exitCode);
         }
         static ExecuteArgs InitializeApp(string[] args)
