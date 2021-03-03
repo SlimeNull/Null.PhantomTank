@@ -1,9 +1,9 @@
-﻿using Lib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using Null.PhantomTank.Library;
 
 namespace Null.PhantomTank
 {
@@ -22,7 +22,7 @@ namespace Null.PhantomTank
         /// 
         /// Need: | 1 >= Yc + 1 - Za >= 0, 0 >= Yc - Za >= -1;      Then: | Za >= Yc
         ///       | 1 >= Xc + Za - 1 >= 0, 2 >= Xc + Za >= 1;       Then: | Xc + Za >= 1
-        ///       | 1 >= Yc - Xc + 1 >= 0, 0 >= Yc - Xc >= -0;      Then: | Xc >= Yc
+        ///       | 1 >= Yc - Xc + 1 >= 0, 0 >= Yc - Xc >= -1;      Then: | Xc >= Yc
         /// 
         /// Root: | Zc = Yc / Za
         ///       | Za = Yc - Xc + 1
@@ -35,7 +35,7 @@ namespace Null.PhantomTank
             float src2ColorRatio = 1 - src1ColorRatio;
 
             int
-                xc = (int)((src1.R + src1.G + src1.B) * src1ColorRatio / 3 + src2ColorRatio * 255),
+                xc = (int)((src1.R + src1.G + src1.B) * src1ColorRatio / 3 + src2ColorRatio * 255 + 1),
                 yc = (int)((src2.R + src2.G + src2.B) * src2ColorRatio / 3);
 
             int za = yc - xc + 255,
@@ -63,7 +63,7 @@ namespace Null.PhantomTank
             Size destSize;
             Rectangle srcRect, destRect;
 
-            switch(resize)
+            switch (resize)
             {
                 case ResizeMode.NoResize:
                     destRect = new Rectangle((newWidth - srcWidth) / 2, (newHeight - srcHeight) / 2, srcWidth, srcHeight);
@@ -140,6 +140,63 @@ namespace Null.PhantomTank
             return result;
         }
 
+        /// <summary>
+        /// 转换图片
+        /// </summary>
+        /// <param name="src">源图</param>
+        /// <param name="tankType">坦克类型</param>
+        /// <returns>转换结果</returns>
+        public static Bitmap ConvertBitmap(Bitmap src, TankType tankType)
+        {
+            Size srcSize = src.Size;
+
+            int
+                srcWidth = srcSize.Width,
+                srcHeight = srcSize.Height;
+
+            Bitmap result = new Bitmap(srcWidth, srcHeight, src.PixelFormat);
+            result.SetResolution(src.HorizontalResolution, src.VerticalResolution);
+
+            LockBitmap lsrc = new LockBitmap(src);
+            LockBitmap lrst = new LockBitmap(result);
+
+            Func<int, Color> pixelCalcFunc;
+            switch (tankType)
+            {
+                case TankType.AppearOnBlack:
+                    pixelCalcFunc = (srcPixel) => Color.FromArgb(srcPixel, 255, 255, 255);
+                    break;
+                case TankType.AppearOnWhite:
+                    pixelCalcFunc = (srcPixel) => Color.FromArgb(255 - srcPixel, 0, 0, 0);
+                    break;
+                default:
+                    throw new InvalidOperationException("Not supported.");
+            }
+
+            for (int i = 0; i < srcHeight; i++)
+            {
+                for (int j = 0; j < srcWidth; j++)
+                {
+                    Color pixel = lsrc.GetPixel(j, i);
+                    int light = (pixel.R + pixel.G + pixel.B) / 3;
+                    lrst.SetPixel(j, i, pixelCalcFunc.Invoke(light));
+                }
+            }
+
+            lsrc.UnlockBits();
+            lrst.UnlockBits();
+
+            return result;
+        }
+        public static Bitmap ConvertImage(Image src, TankType tankType)
+        {
+            Bitmap newSrc = new Bitmap(src);
+            Bitmap result = ConvertBitmap(newSrc, tankType);
+
+            newSrc.Dispose();
+            return result;
+        }
+
         public static Bitmap CombineBitmap(Bitmap src1, Bitmap src2, Color bgColor1, Color bgColor2, ResizeMode resize, float colorRatio)
         {
             Size
@@ -167,7 +224,7 @@ namespace Null.PhantomTank
             srcG2.Clear(bgColor2);
 
             // 这里进行的是对图片的重新调整尺寸操作
-            switch(resize)
+            switch (resize)
             {
                 case ResizeMode.NoResize:
                     srcG1.DrawImageUnscaled(src1, (maxWidth - src1Width) / 2, (maxHeight - src1Height) / 2);
@@ -271,12 +328,17 @@ namespace Null.PhantomTank
         {
             return CombineImage(src1, src2, Color.White, Color.Black, ResizeMode.NoResize, DefaultRatio);
         }
-        public enum ResizeMode
-        {
-            NoResize,
-            Stretch,
-            Uniform,
-            UniformToFill,
-        }
+    }
+    public enum ResizeMode
+    {
+        NoResize,
+        Stretch,
+        Uniform,
+        UniformToFill,
+    }
+    public enum TankType
+    {
+        AppearOnBlack,
+        AppearOnWhite,
     }
 }
