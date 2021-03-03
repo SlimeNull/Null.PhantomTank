@@ -118,6 +118,9 @@ namespace Null.PhantomTank
             LockBitmap lbmp1 = new LockBitmap(src1);
             LockBitmap lbmp2 = new LockBitmap(src2);
             LockBitmap lrst = new LockBitmap(result);
+            lbmp1.LockBits();
+            lbmp2.LockBits();
+            lrst.LockBits();
 
             float whiteRatio = ConvertRatio(colorRatio);
 
@@ -160,6 +163,8 @@ namespace Null.PhantomTank
 
             LockBitmap lsrc = new LockBitmap(src);
             LockBitmap lrst = new LockBitmap(result);
+            lsrc.LockBits();
+            lrst.LockBits();
 
             Func<int, Color> pixelCalcFunc;
             switch (tankType)
