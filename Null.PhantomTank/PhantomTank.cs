@@ -35,11 +35,12 @@ namespace Null.PhantomTank
             float src2ColorRatio = 1 - src1ColorRatio;
 
             int
-                xc = (int)((src1.R + src1.G + src1.B) * src1ColorRatio / 3 + src2ColorRatio * 255 + 1),
+                xc = (int)((src1.R + src1.G + src1.B) * src1ColorRatio / 3 + src2ColorRatio * 255),
                 yc = (int)((src2.R + src2.G + src2.B) * src2ColorRatio / 3);
 
-            int za = yc - xc + 255,
-                zc = (yc * 255 / za);
+            int
+                za = yc - xc + 255,
+                zc = za == 0 ? 0 : (yc * 255 / za);
 
             return Color.FromArgb(za, zc, zc, zc);
         }
