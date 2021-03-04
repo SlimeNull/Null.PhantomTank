@@ -11,7 +11,6 @@ namespace Null.PhantomTank.Library
         IntPtr Iptr = IntPtr.Zero;
         BitmapData bitmapData = null;
 
-        public byte[] Pixels { get => pixels; }
         public int Depth { get => depth; }
         public int Width { get => width; }
         public int Height { get => height; }
@@ -74,7 +73,7 @@ namespace Null.PhantomTank.Library
                         colorGetter = (x, y) =>
                         {
                             int offset = y * stride + x * 3;
-                            return Color.FromArgb(pixels[offset + 2], bmpdata[offset + 1], bmpdata[offset]);
+                            return Color.FromArgb(bmpdata[offset + 2], bmpdata[offset + 1], bmpdata[offset]);
                         };
                         colorSetter = (x, y, color) =>
                         {
@@ -160,7 +159,6 @@ namespace Null.PhantomTank.Library
         }
 
         #region IDisposable Support
-        private byte[] pixels;
         private int depth;
         private int width;
         private int height;
