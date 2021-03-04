@@ -1,0 +1,15 @@
+﻿<Application x:Class="Null.PhantomTank.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Null.PhantomTank.Wpf"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/WindowStyle.xaml"/>
+                <ResourceDictionary Source="Styles/MainPageStyles.xaml"/>
+                <ResourceDictionary Source="Styles/TankPageStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
