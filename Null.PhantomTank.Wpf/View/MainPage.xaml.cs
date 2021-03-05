@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -44,13 +45,27 @@ namespace Null.PhantomTank.Wpf.View
         private void Click_SingleTank(object sender, RoutedEventArgs e)
         {
             StaticFunc.SwitchForwardPage(ParentFrame, ParentViewModel.SingleTankPage);
-            //ParentFrame.Navigate(ParentViewModel.SingleTankPage);
         }
 
         private void Click_ComplexTank(object sender, RoutedEventArgs e)
         {
             StaticFunc.SwitchForwardPage(ParentFrame, ParentViewModel.ComplexTankPage);
-            //ParentFrame.Navigate(ParentViewModel.ComplexTankPage);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CloseApplication();
+        }
+
+        public static void CloseApplication()
+        {
+            Duration dur = new Duration(TimeSpan.FromMilliseconds(100));
+            DoubleAnimation ani = new DoubleAnimation(1, 0, dur);
+
+            ani.Completed += (sender, e) => Application.Current.Shutdown();
+
+            Window MainWindow = Application.Current.MainWindow;
+            MainWindow.BeginAnimation(OpacityProperty, ani);
         }
     }
 }

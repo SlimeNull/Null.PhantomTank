@@ -73,14 +73,14 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource OperationTitle}" Content="调整对比度比例:"/>
                 <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource OperationTitle}" Content="预览输出:"/>
-                <Slider Grid.Row="1" Grid.Column="0" Style="{StaticResource OperationContent}" />
+                <Slider Grid.Row="1" Grid.Column="0" Style="{StaticResource OperationContent}" Minimum="0.1" Maximum="10" Value="1" />
                 <Grid Grid.Row="1" Grid.Column="1" Style="{StaticResource OperationContent}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Content="白色背景" IsChecked="True"/>
-                    <RadioButton Content="黑色背景"/>
+                    <RadioButton Grid.Column="0" HorizontalAlignment="Center" Content="白色背景" IsChecked="True"/>
+                    <RadioButton Grid.Column="1" HorizontalAlignment="Center" Content="黑色背景"/>
                 </Grid>
             </Grid>
         </Grid>

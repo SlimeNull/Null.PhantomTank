@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Null.PhantomTank.Wpf"
+        xmlns:local="clr-namespace:Null.PhantomTank.Wpf" WindowStartupLocation="CenterScreen"
         xmlns:viewmodel="clr-namespace:Null.PhantomTank.Wpf.ViewModel"
-        mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize"
-        Title="MainWindow" Height="690" Width="1075" BorderThickness="1">
+        mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True"
+        Title="MainWindow" Height="690" Width="1075" BorderBrush="Black" BorderThickness="1">
     <Window.DataContext>
         <viewmodel:MainWindowViewModel x:Name="ViewModel" />
     </Window.DataContext>

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Null.PhantomTank.Wpf.View"
       mc:Ignorable="d"
-      d:DesignWidth="1075" d:DesignHeight="690"
+      d:DesignWidth="1075" d:DesignHeight="690" Background="White"
       Title="MainPage">
 
     <Grid>
@@ -43,7 +43,7 @@
             </Button>
         </Grid>
         <Canvas>
-            <Button Canvas.Right="0" Width="40" Height="40" Template="{StaticResource ClonseButtonTemplate}"/>
+            <Button Canvas.Right="0" Width="40" Height="40" Template="{StaticResource CloseButtonTemplate}" Style="{StaticResource CloseButton}" Click="Button_Click"/>
         </Canvas>
     </Grid>
 </Page>

@@ -46,5 +46,64 @@ namespace Null.PhantomTank.Wpf.View
             if (ParentFrame.CanGoBack)
                 StaticFunc.SwitchGoBack(ParentFrame);
         }
+        #region 图片显示处鼠标Enter Leave事件 (用于展示通知消息)
+        private void Input1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ViewModel.Input1TopNoty = true;
+        }
+
+        private void Input2_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ViewModel.Input2TopNoty = true;
+        }
+
+        private void Output_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ViewModel.OutputTopNoty = true;
+        }
+
+        private void Output_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ViewModel.OutputTopNoty = false;
+        }
+
+        private void Input2_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ViewModel.Input2TopNoty = false;
+        }
+
+        private void Input1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ViewModel.Input1TopNoty = false;
+        }
+        #endregion
+
+        private void InputDragEnter(object sender, DragEventArgs e)
+        {
+            IDataObject data = e.Data;
+            if (data.GetDataPresent(DataFormats.Bitmap) || data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Handled = true;
+                e.Effects = DragDropEffects.Copy;
+            }
+        }
+
+        private void Input1Drop(object sender, DragEventArgs e)
+        {
+            IDataObject data = e.Data;
+            if (data.GetDataPresent(DataFormats.Bitmap))
+            {
+                ImageConvertHelper.BeginLoadSource((System.Drawing.Bitmap)data.GetData(DataFormats.Bitmap), (newSrc) => ViewModel.Input1Source = newSrc);
+            }
+            else if (data.GetDataPresent(DataFormats.FileDrop))
+            {
+
+            }
+        }
+
+        private void Input2Drop(object sender, DragEventArgs e)
+        {
+
+        }
     }
 }

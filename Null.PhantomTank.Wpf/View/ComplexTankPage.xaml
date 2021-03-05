@@ -4,9 +4,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Null.PhantomTank.Wpf.View"
+      xmlns:viewmodel="clr-namespace:Null.PhantomTank.Wpf.ViewModel"
       mc:Ignorable="d" Background="White"
       d:DesignWidth="1075" d:DesignHeight="690"
       Title="ComplexTankPage">
+    <Page.DataContext>
+        <viewmodel:DrawTankViewModel x:Name="ViewModel"/>
+    </Page.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -29,13 +33,36 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Style="{StaticResource PictureBorder}">
-                    <Image />
+                    <Button Template="{StaticResource EmptyButton}">
+                        <Grid Background="White" ClipToBounds="True" MouseEnter="Input1_MouseEnter" MouseLeave="Input1_MouseLeave"
+                          AllowDrop="True" DragEnter="InputDragEnter" Drop="Input1Drop"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand">
+                            <Image Cursor="Hand"/>
+                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding Input1TopNoty}" Content="{Binding Input1TopNotyText}"/>
+                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding Input2BottomNoty}" Content="{Binding Input1BottomNotyText}"/>
+                        </Grid>
+                    </Button>
                 </Border>
                 <Border Grid.Column="1" Style="{StaticResource PictureBorder}">
-                    <Image />
+                    <Button Template="{StaticResource EmptyButton}">
+                        <Grid Background="White" ClipToBounds="True" MouseEnter="Input2_MouseEnter" MouseLeave="Input2_MouseLeave"
+                          AllowDrop="True" DragEnter="InputDragEnter" Drop="Input2Drop"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand">
+                            <Image Cursor="Hand"/>
+                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding Input2TopNoty}" Content="{Binding Input2TopNotyText}"/>
+                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding Input2BottomNoty}" Content="{Binding Input2BottomNotyText}"/>
+                        </Grid>
+                    </Button>
                 </Border>
                 <Border Grid.Column="2" Style="{StaticResource PictureBorder}">
-                    <Image />
+                    <Button Template="{StaticResource EmptyButton}">
+                        <Grid Background="{Binding OutputPanelBackground}" ClipToBounds="True" MouseEnter="Output_MouseEnter" MouseLeave="Output_MouseLeave"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand">
+                            <Image />
+                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding OutputTopNoty}" Content="{Binding OutputTopNotyText}"/>
+                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding OutputBottomNoty}" Content="{Binding OutputBottomNotyText}"/>
+                        </Grid>
+                    </Button>
                 </Border>
             </Grid>
             <Grid Grid.Row="1">
@@ -55,8 +82,8 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton/>
-                    <RadioButton/>
+                    <RadioButton Grid.Column="0" HorizontalAlignment="Center" Content="白色背景" IsChecked="{Binding WhiteBackground}"/>
+                    <RadioButton Grid.Column="1" HorizontalAlignment="Center" Content="黑色背景" IsChecked="{Binding BlackBackground}"/>
                 </Grid>
             </Grid>
         </Grid>
