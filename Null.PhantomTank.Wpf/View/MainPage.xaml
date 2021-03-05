@@ -42,8 +42,13 @@
                 </Grid>
             </Button>
         </Grid>
-        <Canvas>
-            <Button Canvas.Right="0" Width="40" Height="40" Template="{StaticResource CloseButtonTemplate}" Style="{StaticResource CloseButton}" Click="Button_Click"/>
-        </Canvas>
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" HorizontalAlignment="Right" Width="40" Height="40" Template="{StaticResource CloseButtonTemplate}" Style="{StaticResource CloseButton}" Click="Close_Click"/>
+            <Button Grid.Column="0" HorizontalAlignment="Right" Width="40" Height="40" Template="{StaticResource MinimiumButtonTemplate}" Style="{StaticResource CloseButton}" Click="Minimium_Click"/>
+        </Grid>
     </Grid>
 </Page>

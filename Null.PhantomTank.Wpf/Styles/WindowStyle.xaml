@@ -26,6 +26,11 @@
             <Line VerticalAlignment="Center" HorizontalAlignment="Center" X1="15" Y1="0" X2="0" Y2="15" Stroke="Black"/>
         </Grid>
     </ControlTemplate>
+    <ControlTemplate x:Key="MinimiumButtonTemplate" TargetType="Button">
+        <Grid Width="{TemplateBinding Width}" Background="{TemplateBinding Background}">
+            <Line VerticalAlignment="Center" HorizontalAlignment="Center" X1="0" Y1="0" X2="15" Y2="0" Stroke="Black"/>
+        </Grid>
+    </ControlTemplate>
     <Style x:Key="CloseButton" TargetType="Button">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
