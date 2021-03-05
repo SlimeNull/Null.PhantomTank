@@ -35,7 +35,7 @@ namespace Null.PhantomTank
             float src2ColorRatio = 1 - src1ColorRatio;
 
             int
-                xc = (int)((src1.R + src1.G + src1.B) * src1ColorRatio / 3 + src2ColorRatio * 255),
+                xc = (int)((src1.R + src1.G + src1.B) * src1ColorRatio / 3 + (src2ColorRatio * 256 - 1)),
                 yc = (int)((src2.R + src2.G + src2.B) * src2ColorRatio / 3);
 
             int

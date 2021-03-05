@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -64,7 +64,8 @@
     </ApplicationDefinition>
     <Compile Include="Model\ImageConvertHelper.cs" />
     <Compile Include="Model\StaticFunc.cs" />
-    <Compile Include="ViewModel\DrawTankViewModel.cs" />
+    <Compile Include="ViewModel\SingleTankViewModel.cs" />
+    <Compile Include="ViewModel\ComplexTankViewModel.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\ComplexTankPage.xaml.cs">

@@ -9,7 +9,7 @@
       d:DesignWidth="1075" d:DesignHeight="690"
       Title="ComplexTankPage">
     <Page.DataContext>
-        <viewmodel:DrawTankViewModel x:Name="ViewModel"/>
+        <viewmodel:ComplexTankViewModel x:Name="ViewModel"/>
     </Page.DataContext>
 
     <Grid>
@@ -33,34 +33,40 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Style="{StaticResource PictureBorder}">
-                    <Button Template="{StaticResource EmptyButton}">
-                        <Grid Background="White" ClipToBounds="True" MouseEnter="Input1_MouseEnter" MouseLeave="Input1_MouseLeave"
-                          AllowDrop="True" DragEnter="InputDragEnter" Drop="Input1Drop"
+                    <Button Name="Input1Button"
+                        Template="{StaticResource EmptyButton}" PreviewMouseLeftButtonDown="ImportSource1" PreviewMouseRightButtonDown="ResetInput1"
+                          AllowDrop="True" DragEnter="InputDragEnter" Drop="Input1Drop">
+                        <Grid Background="White" ClipToBounds="True"
                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand">
-                            <Image Cursor="Hand"/>
-                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding Input1TopNoty}" Content="{Binding Input1TopNotyText}"/>
-                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding Input2BottomNoty}" Content="{Binding Input1BottomNotyText}"/>
+                            <Image Source="{Binding Input1Source, Mode=OneWay}"/>
+                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding  ElementName=Input1Button, Path=IsMouseOver, Mode=OneWay}"
+                                   Content="{Binding Input1TopNotyText, Mode=OneWay}"/>
+                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding Input1BottomNoty}" Content="{Binding Input1BottomNotyText, Mode=OneWay}"/>
                         </Grid>
                     </Button>
                 </Border>
                 <Border Grid.Column="1" Style="{StaticResource PictureBorder}">
-                    <Button Template="{StaticResource EmptyButton}">
-                        <Grid Background="White" ClipToBounds="True" MouseEnter="Input2_MouseEnter" MouseLeave="Input2_MouseLeave"
-                          AllowDrop="True" DragEnter="InputDragEnter" Drop="Input2Drop"
+                    <Button Name="Input2Button"
+                        Template="{StaticResource EmptyButton}" PreviewMouseLeftButtonDown="ImportSource2" PreviewMouseRightButtonDown="ResetSource2"
+                          AllowDrop="True" DragEnter="InputDragEnter" Drop="Input2Drop">
+                        <Grid Background="White" ClipToBounds="True"
                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand">
-                            <Image Cursor="Hand"/>
-                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding Input2TopNoty}" Content="{Binding Input2TopNotyText}"/>
-                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding Input2BottomNoty}" Content="{Binding Input2BottomNotyText}"/>
+                            <Image Source="{Binding Input2Source, Mode=OneWay}"/>
+                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding  ElementName=Input2Button, Path=IsMouseOver, Mode=OneWay}"
+                                   Content="{Binding Input2TopNotyText, Mode=OneWay}"/>
+                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding Input2BottomNoty, Mode=OneWay}" Content="{Binding Input2BottomNotyText, Mode=OneWay}"/>
                         </Grid>
                     </Button>
                 </Border>
                 <Border Grid.Column="2" Style="{StaticResource PictureBorder}">
-                    <Button Template="{StaticResource EmptyButton}">
-                        <Grid Background="{Binding OutputPanelBackground}" ClipToBounds="True" MouseEnter="Output_MouseEnter" MouseLeave="Output_MouseLeave"
+                    <Button Name="OutputButton"
+                        Template="{StaticResource EmptyButton}" PreviewMouseLeftButtonDown="OutputClick" PreviewMouseRightButtonDown="ResetOutput">
+                        <Grid Background="{Binding OutputPanelBackground}" ClipToBounds="True"
                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Cursor="Hand">
-                            <Image />
-                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding OutputTopNoty}" Content="{Binding OutputTopNotyText}"/>
-                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding OutputBottomNoty}" Content="{Binding OutputBottomNotyText}"/>
+                            <Image Source="{Binding OutputSource, Mode=OneWay}"/>
+                            <Label Style="{StaticResource TopNoty}" IsEnabled="{Binding ElementName=OutputButton, Path=IsMouseOver, Mode=OneWay}"
+                                   Content="{Binding OutputTopNotyText, Mode=OneWay}"/>
+                            <Label Style="{StaticResource BottomNoty}" IsEnabled="{Binding OutputBottomNoty, Mode=OneWay}" Content="{Binding OutputBottomNotyText, Mode=OneWay}"/>
                         </Grid>
                     </Button>
                 </Border>
@@ -72,24 +78,46 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.8*"/>
+                    <ColumnDefinition Width="1.8*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource OperationTitle}" Content="调整对比度比例:"/>
-                <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource OperationTitle}" Content="预览输出:"/>
-                <Slider Grid.Row="1" Grid.Column="0" Style="{StaticResource OperationContent}" />
+                <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource OperationTitle}" Content="尺寸调整方式:"/>
+                <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource OperationTitle}" Content="预览输出:"/>
+                <Grid Grid.Row="1" Grid.Column="0" Style="{StaticResource OperationContent}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding ConstrastRatioString, Mode=OneWay}"/>
+                    <Slider Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="20" Value="{Binding RatioBarValue}"/>
+                </Grid>
                 <Grid Grid.Row="1" Grid.Column="1" Style="{StaticResource OperationContent}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.6*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="0" HorizontalAlignment="Center" Content="白色背景" IsChecked="{Binding WhiteBackground}"/>
-                    <RadioButton Grid.Column="1" HorizontalAlignment="Center" Content="黑色背景" IsChecked="{Binding BlackBackground}"/>
+                    <RadioButton Grid.Column="0" HorizontalAlignment="Center" Content="NoResize" IsChecked="{Binding NoResize}"/>
+                    <RadioButton Grid.Column="1" HorizontalAlignment="Center" Content="Stretch" IsChecked="{Binding Stretch}"/>
+                    <RadioButton Grid.Column="2" HorizontalAlignment="Center" Content="Uniform" IsChecked="{Binding Uniform}"/>
+                    <RadioButton Grid.Column="3" HorizontalAlignment="Center" Content="UniformToFill" IsChecked="{Binding UniformToFill}"/>
                 </Grid>
+                <Slider Grid.Row="1" Grid.Column="2" Style="{StaticResource OperationContent}" Minimum="0" Maximum="255" Value="{Binding Lightness}"/>
             </Grid>
         </Grid>
         <Canvas Grid.Row="3">
-            <Button Canvas.Left="50" Canvas.Bottom="40" Width="130" Height="32" Click="Click_Return"
+            <StackPanel Canvas.Left="50" Canvas.Bottom="40" Orientation="Horizontal" >
+                <Button Width="130" Height="32" Margin="0, 0, 15, 0" Click="Click_Return"
                     Template="{StaticResource ReturnButtonTemplate}" Style="{StaticResource ReturnButton}" Content="返回"/>
+            </StackPanel>
+            <StackPanel Canvas.Right="50" Canvas.Bottom="40" Orientation="Horizontal">
+                <Button Width="130" Height="32" Margin="15, 0, 0, 0" Click="ResetOptions"
+                    Template="{StaticResource ReturnButtonTemplate}" Style="{StaticResource ReturnButton}" Content="重置选项"/>
+                <Button Width="130" Height="32" Margin="15, 0, 0, 0" Click="SaveOutput"
+                    Template="{StaticResource ReturnButtonTemplate}" Style="{StaticResource ReturnButton}" Content="保存图像"/>
+            </StackPanel>
         </Canvas>
     </Grid>
 </Page>

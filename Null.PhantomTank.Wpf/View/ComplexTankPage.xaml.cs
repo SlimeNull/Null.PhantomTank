@@ -1,4 +1,5 @@
-﻿using Null.PhantomTank.Wpf.Model;
+﻿using Microsoft.Win32;
+using Null.PhantomTank.Wpf.Model;
 using Null.PhantomTank.Wpf.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -46,37 +47,6 @@ namespace Null.PhantomTank.Wpf.View
             if (ParentFrame.CanGoBack)
                 StaticFunc.SwitchGoBack(ParentFrame);
         }
-        #region 图片显示处鼠标Enter Leave事件 (用于展示通知消息)
-        private void Input1_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ViewModel.Input1TopNoty = true;
-        }
-
-        private void Input2_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ViewModel.Input2TopNoty = true;
-        }
-
-        private void Output_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ViewModel.OutputTopNoty = true;
-        }
-
-        private void Output_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ViewModel.OutputTopNoty = false;
-        }
-
-        private void Input2_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ViewModel.Input2TopNoty = false;
-        }
-
-        private void Input1_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ViewModel.Input1TopNoty = false;
-        }
-        #endregion
 
         private void InputDragEnter(object sender, DragEventArgs e)
         {
@@ -93,17 +63,130 @@ namespace Null.PhantomTank.Wpf.View
             IDataObject data = e.Data;
             if (data.GetDataPresent(DataFormats.Bitmap))
             {
-                ImageConvertHelper.BeginLoadSource((System.Drawing.Bitmap)data.GetData(DataFormats.Bitmap), (newSrc) => ViewModel.Input1Source = newSrc);
+                var bmp = (System.Drawing.Bitmap)data.GetData(DataFormats.Bitmap);
+                ViewModel.Input1 = bmp;
             }
             else if (data.GetDataPresent(DataFormats.FileDrop))
             {
-
+                string[] files = (string[])data.GetData(DataFormats.FileDrop);
+                if (files.Length > 0)
+                    ImageConvertHelper.BeginLoadImage(files[0], (newImg) => 
+                    { 
+                        ViewModel.Input1 = newImg; 
+                    });
             }
         }
 
         private void Input2Drop(object sender, DragEventArgs e)
         {
+            IDataObject data = e.Data;
+            if (data.GetDataPresent(DataFormats.Bitmap))
+            {
+                var bmp = (System.Drawing.Bitmap)data.GetData(DataFormats.Bitmap);
+                ViewModel.Input2 = bmp;
+            }
+            else if (data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])data.GetData(DataFormats.FileDrop);
+                if (files.Length > 0)
+                    ImageConvertHelper.BeginLoadImage(files[0], (newImg) =>
+                    {
+                        ViewModel.Input2 = newImg;
+                    });
+            }
+        }
 
+        OpenFileDialog ofd = new OpenFileDialog()
+        {
+            Title = "选择一个图片",
+            Filter = "All|*.jpg;*.jpeg;*.png;*.gif;*.tiff|JPEG|*.jpg;*jpeg|PNG|*png|GIF|*gif|TIFF|*.tiff",
+            CheckFileExists = true,
+            Multiselect = false
+        };
+
+        private void ImportSource1(object sender, MouseButtonEventArgs e)
+        {
+            if (ofd.ShowDialog().GetValueOrDefault(false))
+            {
+                ImageConvertHelper.BeginLoadImage(ofd.FileName, (newImg) =>
+                {
+                    ViewModel.Input1 = newImg;
+                });
+            }
+        }
+
+        private void ResetInput1(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.Input1 = null;
+        }
+
+        private void ImportSource2(object sender, MouseButtonEventArgs e)
+        {
+            if (ofd.ShowDialog().GetValueOrDefault(false))
+            {
+                ImageConvertHelper.BeginLoadImage(ofd.FileName, (newImg) =>
+                {
+                    ViewModel.Input2 = newImg;
+                });
+            }
+        }
+
+        private void ResetSource2(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.Input2 = null;
+        }
+
+        private void ResetOutput(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.Output = null;
+        }
+
+        SaveFileDialog sfd = new SaveFileDialog()
+        {
+            FileName = "PhantomTank.png",
+            Filter = "All|*.jpg;*.jpeg;*.png;*.gif;*.tiff|JPEG|*.jpg;*jpeg|PNG|*png|GIF|*gif|TIFF|*.tiff",
+            CheckPathExists = true,
+        };
+        private void OutputClick(object sender, MouseButtonEventArgs e)
+        {
+            if (ViewModel.OutputSource == null)
+            {
+                var src1 = ViewModel.Input1;
+                var src2 = ViewModel.Input2;
+                if (src1 != null && src2 != null)
+                {
+                    ImageConvertHelper.BeginCombineImage(src1, src2, ViewModel.ResizeMode, (float)ViewModel.ConstrastRatio, (img) =>
+                    {
+                        ViewModel.Output = img;
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("在渲染前, 请先指定输入源!", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                if (sfd.ShowDialog().GetValueOrDefault(false))
+                {
+                    ViewModel.Output.Save(sfd.FileName);
+                }
+            }
+        }
+
+        private void ResetOptions(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RatioBarValue = 10;
+            ViewModel.NoResize = true;
+            ViewModel.Lightness = 255;
+        }
+
+        private void SaveOutput(object sender, RoutedEventArgs e)
+        {
+            if (sfd.ShowDialog().GetValueOrDefault(false))
+            {
+                ViewModel.Output.Save(sfd.FileName);
+            }
         }
     }
 }
