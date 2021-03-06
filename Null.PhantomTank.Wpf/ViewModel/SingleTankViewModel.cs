@@ -21,7 +21,7 @@ namespace Null.PhantomTank.Wpf.ViewModel
         private BitmapImage outputSource;
         private System.Drawing.Image input1;
         private System.Drawing.Bitmap output;
-        private bool appearOnBlack = false;
+        private bool appearOnBlack = true;
         private bool appearOnWhite;
         private int lightness = 127;
 

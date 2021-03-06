@@ -275,11 +275,11 @@ namespace Null.PhantomTank
         }
         public static Bitmap CombineBitmap(Bitmap src1, Bitmap src2, Color bgColor1, Color bgColor2, ResizeMode resize)
         {
-            return CombineBitmap(src1, src2, Color.White, Color.Black, resize, DefaultRatio);
+            return CombineBitmap(src1, src2, bgColor1, bgColor2, resize, DefaultRatio);
         }
         public static Bitmap CombineBitmap(Bitmap src1, Bitmap src2, Color bgColor1, Color bgColor2, float colorRatio)
         {
-            return CombineBitmap(src1, src2, Color.White, Color.Black, ResizeMode.NoResize, DefaultRatio);
+            return CombineBitmap(src1, src2, bgColor1, bgColor2, ResizeMode.NoResize, colorRatio);
         }
         public static Bitmap CombineBitmap(Bitmap src1, Bitmap src2, ResizeMode resize, float colorRatio)
         {
@@ -312,11 +312,11 @@ namespace Null.PhantomTank
         }
         public static Bitmap CombineImage(Image src1, Image src2, Color bgColor1, Color bgColor2, ResizeMode resize)
         {
-            return CombineImage(src1, src2, Color.White, Color.Black, resize, DefaultRatio);
+            return CombineImage(src1, src2, bgColor1, bgColor2, resize, DefaultRatio);
         }
         public static Bitmap CombineImage(Image src1, Image src2, Color bgColor1, Color bgColor2, float colorRatio)
         {
-            return CombineImage(src1, src2, Color.White, Color.Black, ResizeMode.NoResize, colorRatio);
+            return CombineImage(src1, src2, bgColor1, bgColor2, ResizeMode.NoResize, colorRatio);
         }
         public static Bitmap CombineImage(Image src1, Image src2, ResizeMode resize, float colorRatio)
         {

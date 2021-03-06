@@ -21,7 +21,6 @@ namespace Null.PhantomTank.Wpf.ViewModel
         private BitmapImage input1Source;
         private BitmapImage input2Source;
         private BitmapImage outputSource;
-        private double constrastRatio = 1;
         private bool uniformToFill;
         private bool uniform;
         private bool stretch;

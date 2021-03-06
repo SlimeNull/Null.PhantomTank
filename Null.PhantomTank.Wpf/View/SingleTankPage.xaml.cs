@@ -79,7 +79,7 @@ namespace Null.PhantomTank.Wpf.View
             }
         }
 
-        OpenFileDialog ofd = new OpenFileDialog()
+        readonly OpenFileDialog ofd = new OpenFileDialog()
         {
             Title = "选择一个图片",
             Filter = "All|*.jpg;*.jpeg;*.png;*.gif;*.tiff|JPEG|*.jpg;*jpeg|PNG|*png|GIF|*gif|TIFF|*.tiff",
@@ -108,7 +108,7 @@ namespace Null.PhantomTank.Wpf.View
             ViewModel.Output = null;
         }
 
-        SaveFileDialog sfd = new SaveFileDialog()
+        readonly SaveFileDialog sfd = new SaveFileDialog()
         {
             FileName = "PhantomTank.png",
             Filter = "All|*.jpg;*.jpeg;*.png;*.gif;*.tiff|JPEG|*.jpg;*jpeg|PNG|*png|GIF|*gif|TIFF|*.tiff",
